@@ -130,9 +130,27 @@
         .rules-text { text-align: left; font-size: 14px; line-height: 1.5; max-height: 40vh; overflow-y: auto; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #444; margin: 15px 0; }
         .lead-title-img { font-size: 24px; vertical-align: middle; margin-right: 5px; }
         .user-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+        /* --- BLOKLANGANLAR EKRANI VA ADMIN PANEL STYLES --- */
+        #ban-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; z-index: 2000; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .ban-icon { font-size: 80px; color: #e74c3c; filter: drop-shadow(0 0 15px #e74c3c); margin-bottom: 20px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .ban-title { font-size: 22px; font-weight: 900; color: #ffffff; text-transform: uppercase; margin-bottom: 10px; }
+        .ban-desc { font-size: 16px; color: #aaaaaa; max-width: 80%; }
+        .admin-user-item { display: flex; flex-direction: column; padding: 10px; border-bottom: 1px solid #444; background: #1a1a1a; margin-bottom: 5px; border-radius: 5px; }
+        .admin-user-actions { display: flex; gap: 5px; margin-top: 5px; }
+        .admin-btn-ban { background: #e67e22; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; }
+        .admin-btn-unban { background: #2ecc71; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; }
+        .admin-btn-del { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; }
     </style>
 </head>
 <body onclick="handleInteraction()" oncontextmenu="return false;"> 
+
+<div id="ban-screen">
+    <div class="ban-icon">⚠️</div>
+    <div class="ban-title" id="ban-text-title">Siz administrator tomonidan bloklangansiz</div>
+    <div class="ban-desc" id="ban-text-desc">O'yin qoidalarini buzganligingiz sababli tizimga kirishingiz taqiqlangan.</div>
+</div>
 
 <div id="loading-screen">
     <div id="loading-text">YUKLANMOQDA...</div>
@@ -160,12 +178,23 @@
     </div>
     <div id="my-rank-short" class="rank-tag">Yangi o'yinchi</div>
     
+    <button id="admin-panel-btn" class="btn" style="display: none; background: #9b59b6; color: white; margin-top: 10px;" onclick="openAdminPanel()">🛠️ Admin Panel</button>
+
     <h3 id="online-players-title" style="margin-top: 20px;">🟢 Onlayn o'yinchilar:</h3>
     <div id="online-list">Hozircha hech kim yo'q...</div>
     <br>
     <button id="exit-btn" class="btn" onclick="closeTelegramApp()">Chiqish</button>
     
     <div style="margin-top: 15px; font-size: 13px; color: #777; letter-spacing: 1px;">Yaratuvchi: <span style="color: #f1c40f; font-weight: bold;">𝗔𝗯𝗱𝘂𝗿𝗮𝗵𝗺𝗼𝗻𝗼𝘃 ❙❙</span></div>
+</div>
+
+<div id="admin-modal" class="modal">
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+        <h2 style="color:#9b59b6; margin: 0 0 15px 0;">🛠️ ADMIN PANEL</h2>
+        <div style="font-size: 12px; margin-bottom: 10px; color:#aaa; text-align: left;">Barcha ro'yxatdan o'tgan foydalanuvchilar:</div>
+        <div id="admin-users-list" style="max-height: 50vh; overflow-y: auto; text-align: left; background: #1a1a1a; padding: 5px; border-radius: 10px; border: 1px solid #444;"></div>
+        <button class="btn" style="background:#555; color:white; margin-top: 15px;" onclick="document.getElementById('admin-modal').style.display='none'">Yopish</button>
+    </div>
 </div>
 
 <div id="name-setup-modal">
@@ -282,7 +311,9 @@
                 { min: 25, name: "Usta", icon: "🥈" },
                 { min: 50, name: "Grossmeyster", icon: "🥇" },
                 { min: 100, name: "Shashka Qiroli", icon: "👑" }
-            ]
+            ],
+            banTitle: "Siz administrator tomonidan bloklangansiz",
+            banDesc: "O'yin qoidalarini buzganligingiz sababli tizimga kirishingiz taqiqlangan."
         },
         en: {
             loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: " Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is mandatory if available.<br><br>4. Jumps must be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑) and its turn ends immediately.<br><br>6. The game continues until all pieces are lost or a player resigns. Losing all pieces or having no legal moves results in a loss.",
@@ -292,7 +323,9 @@
                 { min: 25, name: "Master", icon: "🥈" },
                 { min: 50, name: "Grandmaster", icon: "🥇" },
                 { min: 100, name: "Checkers King", icon: "👑" }
-            ]
+            ],
+            banTitle: "You have been blocked by the administrator",
+            banDesc: "Access to the system is forbidden due to violation of game rules."
         },
         ru: {
             loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: " Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный login или parol!", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Если есть возможность взять шашку соперника, взятие обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑) и её ход на этом заканчивается.<br><br>6. Игра продолжается до тех пор, пока не закончатся фигуры или один из игроков не сдастся. Игрок, у которого не осталось шашек или ходов, проигрывает.",
@@ -302,7 +335,9 @@
                 { min: 25, name: "Мастер", icon: "🥈" },
                 { min: 50, name: "Гроссмейстер", icon: "🥇" },
                 { min: 100, name: "Король шашек", icon: "👑" }
-            ]
+            ],
+            banTitle: "Вы заблокированы администратором",
+            banDesc: "Доступ к системе запрещен из-за нарушения правил игры."
         }
     };
 
@@ -416,6 +451,8 @@
         document.getElementById('rules-title').innerText = lang.rulesTitle;
         document.getElementById('rules-content').innerHTML = lang.rulesText;
         document.getElementById('rules-close-btn').innerText = lang.close;
+        document.getElementById('ban-text-title').innerText = lang.banTitle;
+        document.getElementById('ban-text-desc').innerText = lang.banDesc;
         
         const imgHTML = '<span class="lead-title-img">🏆</span> ';
         document.getElementById('lead-title').innerHTML = imgHTML + lang.bestPlayers;
@@ -448,6 +485,9 @@
                 clearInterval(interval);
                 document.getElementById('loading-screen').style.display = 'none';
                 
+                // Bloklanganlikni tekshirish tizimi (Realtime)
+                checkUserBanStatus();
+
                 if (!currentName) {
                     document.getElementById('name-setup-modal').style.display = 'flex';
                 } else {
@@ -457,6 +497,8 @@
                     updatePresence();
                 }
                 updateMyRankInMenu();
+                // Adminlik huquqini tekshirish
+                checkAdminStatus();
             } else { width += 1; bar.style.width = width + '%'; }
         }, 20);
     }
@@ -470,13 +512,121 @@
         }
     };
 
+    /* --- JORIY FOYDALANUVCHINING BLOKLANGANLIGINI TEKSHIRISH --- */
+    function checkUserBanStatus() {
+        db.ref('banned_users/' + userId).on('value', (snap) => {
+            if (snap.val() === true) {
+                document.getElementById('ban-screen').style.display = 'flex';
+                document.getElementById('menu').style.display = 'none';
+                document.getElementById('board').style.display = 'none';
+                document.getElementById('status-container').style.display = 'none';
+                document.getElementById('name-setup-modal').style.display = 'none';
+                document.getElementById('profile-modal').style.display = 'none';
+                document.getElementById('admin-modal').style.display = 'none';
+                stopLobbyMusic();
+                // Tizimdagi onlaynligini o'chirish
+                db.ref('presence/' + userId).update({ online: false, inGame: false });
+            } else {
+                document.getElementById('ban-screen').style.display = 'none';
+            }
+        });
+    }
+
+    /* --- ADMINLIK STATUSINI TEKSHIRISH --- */
+    function checkAdminStatus() {
+        db.ref('admins/' + userId).on('value', (snap) => {
+            const btn = document.getElementById('admin-panel-btn');
+            if (snap.val() === true) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+    }
+
+    /* --- ADMIN PANEL OYNASINI OCHISH VA RO'YXATNI YUKLASH --- */
+    function openAdminPanel() {
+        document.getElementById('admin-modal').style.display = 'flex';
+        const usersListDiv = document.getElementById('admin-users-list');
+        usersListDiv.innerHTML = '<div style="color: #aaa; padding:10px;">Yuklanmoqda...</div>';
+
+        // Barcha mavjud stats (foydalanuvchilar) ro'yxatini yuklash
+        db.ref('stats').once('value', (statsSnap) => {
+            db.ref('banned_users').once('value', (banSnap) => {
+                const bannedUsers = banSnap.val() || {};
+                usersListDiv.innerHTML = '';
+                
+                let hasUsers = false;
+                statsSnap.forEach((child) => {
+                    hasUsers = true;
+                    const uId = child.key;
+                    const uData = child.val();
+                    const isBanned = bannedUsers[uId] === true;
+
+                    const item = document.createElement('div');
+                    item.className = 'admin-user-item';
+                    item.innerHTML = `
+                        <div style="font-weight: bold; color: #f1c40f;">${uData.name || 'Noma\'lum'}</div>
+                        <div style="font-size: 11px; color: #888;">ID: ${uId} | W: ${uData.wins || 0} L: ${uData.losses || 0}</div>
+                        <div class="admin-user-actions">
+                            ${isBanned ? 
+                                `<button class="admin-btn-unban" onclick="adminUnbanUser('${uId}')">Blokdan ochish</button>` : 
+                                `<button class="admin-btn-ban" onclick="adminBanUser('${uId}')">Bloklash</button>`
+                            }
+                            <button class="admin-btn-del" onclick="adminDeleteUser('${uId}')">O'chirish</button>
+                        </div>
+                    `;
+                    usersListDiv.appendChild(item);
+                });
+
+                if (!hasUsers) {
+                    usersListDiv.innerHTML = '<div style="color: #aaa; padding:10px;">Foydalanuvchilar topilmadi.</div>';
+                }
+            });
+        });
+    }
+
+    /* --- ADMIN FUNKSIYALARI --- */
+    window.adminBanUser = function(targetId) {
+        if (targetId === userId) { alert("O'zingizni bloklay olmaysiz!"); return; }
+        if (confirm("Ushbu foydalanuvchini bloklamoqchimisiz?")) {
+            db.ref('banned_users/' + targetId).set(true).then(() => {
+                openAdminPanel(); // Ro'yxatni yangilash
+            });
+        }
+    };
+
+    window.adminUnbanUser = function(targetId) {
+        if (confirm("Ushbu foydalanuvchini blokdan chiqarmoqchimisiz?")) {
+            db.ref('banned_users/' + targetId).remove().then(() => {
+                openAdminPanel(); // Ro'yxatni yangilash
+            });
+        }
+    };
+
+    window.adminDeleteUser = function(targetId) {
+        if (targetId === userId) { alert("O'zingizni o'chira olmaysiz!"); return; }
+        if (confirm("Ushbu foydalanuvchini butunlay o'chirib tashlamoqchimisiz? (Statistika va ban holati o'chadi)")) {
+            db.ref('stats/' + targetId).remove();
+            db.ref('presence/' + targetId).remove();
+            db.ref('banned_users/' + targetId).remove().then(() => {
+                openAdminPanel(); // Ro'yxatni yangilash
+            });
+        }
+    };
+
     function updatePresence() {
         if (!userId || !currentName) return;
-        const myPres = db.ref('presence/' + userId);
-        const deviceModel = getDeviceModel();
-        const timestamp = firebase.database.ServerValue ? firebase.database.ServerValue.TIMESTAMP : Date.now();
-        myPres.set({ name: currentName, online: true, inGame: false, device: deviceModel, lastActive: timestamp, photoUrl: userAvatarUrl || "" });
-        myPres.onDisconnect().update({ online: false, inGame: false, lastActive: timestamp });
+        // Agar foydalanuvchi bloklangan bo'lsa, onlayn qilmaslik
+        db.ref('banned_users/' + userId).once('value', (snap) => {
+            if (snap.val() === true) return;
+            
+            const myPres = db.ref('presence/' + userId);
+            const deviceModel = getDeviceModel();
+            const timestamp = firebase.database.ServerValue ? firebase.database.ServerValue.TIMESTAMP : Date.now();
+            myPres.set({ name: currentName, online: true, inGame: false, device: deviceModel, lastActive: timestamp, photoUrl: userAvatarUrl || "" });
+            myPres.onDisconnect().update({ online: false, inGame: false, lastActive: timestamp });
+        });
     }
 
     function getRank(wins) {
@@ -848,20 +998,17 @@
         if (cap) { board[cap.r][cap.c] = "empty"; playSound('capture-sound'); } else playSound('move-sound');
         board[tR][tC] = piece; board[fR][fC] = "empty";
         
-        // Damka zonasiga yetganini tekshirish
         if (!piece.king && ((piece.type === 'white' && tR === 0) || (piece.type === 'black' && tR === 7))) {
             piece.king = true;
-            becameKingNow = true; // Hozirgina damka bo'lganini belgilash
+            becameKingNow = true;
         }
         
-        // Agar raqib toshini urgan bo'lsa VA hozirgina damka bo'lib qolmagan bo'lsa, yana urish imkonini tekshiradi
         if (cap && !becameKingNow && getCaptureMoves(tR, tC, board[tR][tC]).length > 0) { 
             selected = { r: tR, c: tC }; mustJumpAgain = true; 
             updateFirebase(true); render();
             if (isBotGame && turn === botRole) setTimeout(makeBotMove, 400);
         }
         else { 
-            // Agar oddiy tosh urib borib damkaga aylangan bo'lsa, bu yerga tushadi va navbat tugaydi
             selected = null; mustJumpAgain = false; turn = (turn === 'white') ? 'black' : 'white'; 
             updateFirebase(!!cap); render(); 
             if (!checkGameEndStatus()) {
@@ -881,7 +1028,7 @@
                 return;
             }
         }
-        let bestMove = minimaxDecision(board, 6); // Hisoblash chuqurligi ekspert darajasi uchun 6 ga oshirildi
+        let bestMove = minimaxDecision(board, 6); 
         if (bestMove) {
             executeMove(bestMove.from.r, bestMove.from.c, bestMove.to.r, bestMove.to.c, bestMove.captured || null);
         } else { checkGameEndStatus(); }
@@ -895,7 +1042,6 @@
         let captures = legals.filter(m => m.captured);
         let movesToEvaluate = captures.length > 0 ? captures : legals;
         
-        // Alpha-Beta samaradorligini oshirish uchun majburiy yeyishlarni birinchi navbatda saralash
         movesToEvaluate.sort((a, b) => (b.captured ? 1 : 0) - (a.captured ? 1 : 0));
         
         for (let move of movesToEvaluate) {
@@ -940,7 +1086,6 @@
 
     function evaluateBoard(b) {
         let score = 0;
-        // Ekspert pozitsiya og'irliklari matritsasi (Markaz nazorati, himoya zanjirlari va xavfsiz qanotlar)
         const positionWeight = [
             [0, 40,  0, 40,  0, 40,  0, 40], 
             [40, 0, 45,  0, 45,  0, 40,  0], 
@@ -958,21 +1103,17 @@
                 if (p && p !== "empty") {
                     let pieceScore = 0;
                     if (p.king) {
-                        pieceScore += 500; // Damka qiymati oshirildi
+                        pieceScore += 500; 
                     } else {
-                        pieceScore += 100; // Oddiy tosh qiymati
-                        // Oldinga siljishni mukofotlash
+                        pieceScore += 100; 
                         pieceScore += (p.type === botRole) ? (r * 15) : ((7 - r) * 15);
                         pieceScore += positionWeight[r][c];
                         
-                        // Himoya qatorlari xavfsizligi
                         if (p.type === 'black' && r === 6) pieceScore += 25;
                         if (p.type === 'white' && r === 1) pieceScore += 25;
                     }
-                    // Doska chetidagi xavfsiz toshlar mukofoti
                     if (c === 0 || c === 7) pieceScore += 20;
                     
-                    // Orqa qator daxlsizligi (bazaviy mudofaa)
                     if (p.type === 'black' && r === 0) pieceScore += 40;
                     if (p.type === 'white' && r === 7) pieceScore += 40;
                     
@@ -1043,7 +1184,7 @@
                 if (landR >= 0 && landR < 8 && landC >= 0 && landC < 8) {
                     const mid = b[row+dr][col+dc];
                     if (mid !== "empty" && mid.type !== piece.type && b[landR][landC] === "empty")
-                        moves.push({ from: {r: row, c: col}, to: {r: landR, c: landC}, captured: {r: row+dr, c: col+dc} });
+                        moves.push({ from: {r: row, c: col}, to: {r: landR, c: a, landC}, captured: {r: row+dr, c: col+dc} });
                 }
             }
         }
@@ -1112,8 +1253,12 @@
     let musicStarted = false;
     function handleInteraction() {
         if (!musicStarted && !inGame) {
-            const lobbyMusic = document.getElementById('lobby-music');
-            if (lobbyMusic) { lobbyMusic.play().catch(() => {}); musicStarted = true; }
+            // Bloklangan odam ekranga bossa musiqa chalinmasligi uchun
+            db.ref('banned_users/' + userId).once('value', (snap) => {
+                if (snap.val() === true) return;
+                const lobbyMusic = document.getElementById('lobby-music');
+                if (lobbyMusic) { lobbyMusic.play().catch(() => {}); musicStarted = true; }
+            });
         }
     }
 </script>
