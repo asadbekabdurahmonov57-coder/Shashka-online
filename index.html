@@ -143,12 +143,33 @@
         .admin-btn-unban { background: #2ecc71; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; }
         .admin-btn-del { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; }
 
-        /* --- ADMIN CHAT DESIGN (MUTLAQO YANGI QO'SHILGAN STYLES) --- */
+        /* --- ADMIN CHAT DESIGN --- */
         #admin-chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 650; flex-direction: column; justify-content: flex-end; }
         .admin-chat-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #444; font-weight: 900; color: #e67e22; }
         
-        /* KO'K GALOCHKA CHAT ICHIDA HAM CHIQUVCHI STYLE */
-        .verified-badge { color: #3498db; margin-left: 3px; font-size: 12px; vertical-align: middle; }
+        /* INSTAGRAMGA O'XSHASH ASLIY KO'K GALOCHKA TIZIMI */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            background-color: #0095f6;
+            color: #ffffff;
+            border-radius: 50%;
+            font-size: 8px;
+            margin-left: 4px;
+            vertical-align: middle;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .verified-badge::after {
+            content: '✓';
+            font-weight: 900;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body onclick="handleInteraction()" oncontextmenu="return false;"> 
@@ -193,7 +214,7 @@
     <br>
     <button id="exit-btn" class="btn" onclick="closeTelegramApp()">Chiqish</button>
     
-    <div style="margin-top: 15px; font-size: 13px; color: #777; letter-spacing: 1px;">Yaratuvchi: <span style="color: #3498db; font-weight: bold;">Admin 🔵</span></div>
+    <div style="margin-top: 15px; font-size: 13px; color: #777; letter-spacing: 1px; display: flex; align-items: center; justify-content: center;">Yaratuvchi: <span style="color: #3498db; font-weight: bold; margin-left: 4px;">Abdurahmonov</span><span class="verified-badge"></span></div>
 </div>
 
 <div id="admin-modal" class="modal">
@@ -585,7 +606,7 @@
                     const item = document.createElement('div');
                     item.className = 'admin-user-item';
                     item.innerHTML = `
-                        <div style="font-weight: bold; color: #f1c40f;">${uData.name || 'Noma\'lum'} ${uId === "6741153061" ? '<span class="verified-badge">🔵</span>' : ''}</div>
+                        <div style="font-weight: bold; color: #f1c40f; display: inline-flex; align-items: center;">${uData.name || 'Noma\'lum'} ${uId === "6741153061" ? '<span class="verified-badge"></span>' : ''}</div>
                         <div style="font-size: 11px; color: #888;">ID: ${uId} | W: ${uData.wins || 0} L: ${uData.losses || 0}</div>
                         <div class="admin-user-actions">
                             ${isBanned ? 
@@ -735,7 +756,7 @@
                 snap.forEach(child => { players.push(child.val()); });
                 players.reverse().forEach((p, index) => {
                     const r = getRank(p.wins || 0);
-                    list.innerHTML += `<div class="user-item"><span>${index+1}. ${p.name} ${p.uid === "6741153061" ? '<span class="verified-badge">🔵</span>' : ''} <br><small>${r.icon} ${r.name}</small></span><span><b style="color:#2ecc71">W:${p.wins||0}</b></span></div>`;
+                    list.innerHTML += `<div class="user-item"><span>${index+1}. ${p.name} ${p.uid === "6741153061" ? '<span class="verified-badge"></span>' : ''} <br><small>${r.icon} ${r.name}</small></span><span><b style="color:#2ecc71">W:${p.wins||0}</b></span></div>`;
                 });
             });
         }
@@ -884,10 +905,10 @@
                 const msgDiv = document.createElement('div');
                 msgDiv.className = `chat-msg ${isMyMsg ? 'msg-my' : 'msg-opp'}`;
                 
-                // Admin bo'lsa xabar yoniga ko'k galochka chiqarish logikasi
-                let isSenderAdmin = msg.senderId === "6741153061" ? '<span class="verified-badge">🔵</span>' : '';
+                // ADMIN XABARI YONIGA KO'K GALOCHKA CHIQARISH TIZIMI
+                let isSenderAdmin = msg.senderId === "6741153061" ? '<span class="verified-badge"></span>' : '';
                 
-                msgDiv.innerHTML = `<span class="msg-sender">${isMyMsg ? 'Siz' : msg.senderName} ${isSenderAdmin}</span>${msg.text}`;
+                msgDiv.innerHTML = `<span class="msg-sender" style="display: inline-flex; align-items: center;">${isMyMsg ? 'Siz' : msg.senderName} ${isSenderAdmin}</span>${msg.text}`;
                 container.appendChild(msgDiv);
             });
             container.scrollTop = container.scrollHeight;
@@ -1386,7 +1407,11 @@
                 if (isMyMsg) {
                     msgDiv.style.background = '#e67e22'; 
                 }
-                msgDiv.innerHTML = `<span class="msg-sender" style="color:#f1c40f;">${isMyMsg ? 'Siz' : msg.senderName}</span>${msg.text}`;
+                
+                // CHAT ICHIDA CHIDAMLI VA HAQIQIY GALOCHKA EFFEKTI
+                let isSenderAdmin = msg.senderId === "6741153061" ? '<span class="verified-badge"></span>' : '';
+                
+                msgDiv.innerHTML = `<span class="msg-sender" style="color:#f1c40f; display: inline-flex; align-items: center;">${isMyMsg ? 'Siz' : msg.senderName} ${isSenderAdmin}</span>${msg.text}`;
                 container.appendChild(msgDiv);
             });
             container.scrollTop = container.scrollHeight;
@@ -1400,7 +1425,7 @@
         
         db.ref('admin_chats/' + selectedAdminChatUser).push({
             senderId: userId,
-            senderName: (userId === "6741153061") ? "👨‍✈️ Admin" : currentName,
+            senderName: (userId === "6741153061") ? "Admin" : currentName,
             text: text,
             ts: Date.now()
         });
