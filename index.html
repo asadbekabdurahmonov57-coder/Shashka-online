@@ -86,10 +86,7 @@
         .invite-btn { background: #2ecc71; color: white; border: none; padding: 7px 12px; border-radius: 5px; cursor: pointer; font-weight: 900; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
         
         #status-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; width: 100%; }
-        #status { font-size: 4.5vw; font-weight: 900; text-transform: uppercase; text-align: center; background: #2c2c2c; padding: 8px 20px; border-radius: 30px; min-width: 200px; border: 2px solid #444; }
-        #clocks-container { display: flex; justify-content: space-around; width: 95vw; max-width: 450px; margin-top: 8px; font-family: monospace; font-size: 4vw; font-weight: 900; }
-        .clock-box { background: #2c2c2c; padding: 5px 12px; border-radius: 8px; border: 1px solid #555; min-width: 110px; text-align: center; }
-        .active-clock { border-color: #f1c40f; color: #f1c40f; box-shadow: 0 0 8px rgba(241, 196, 15, 0.4); }
+        #status { font-size: 4.5vw; font-weight: 900; text-transform: uppercase; text-align: center; background: #2c2c2c; padding: 8px 20px; border-radius: 30px; min-width: 200px; border: 2px solid #444; margin-top: 10px; }
         
         #board { width: 95vw; height: 95vw; max-width: 450px; max-height: 450px; border: 6px solid #3e2723; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); transition: transform 0.5s; background-color: #d7ccc8; }
         .rotate-board { transform: rotate(180deg); }
@@ -216,10 +213,6 @@
 
 <div id="status-container" style="display:none;">
     <div id="status">Oqlar yurishi</div>
-    <div id="clocks-container">
-        <div id="clock-white" class="clock-box">Oq: 10:00</div>
-        <div id="clock-black" class="clock-box">Qora: 10:00</div>
-    </div>
 </div>
 
 <div id="board" style="display:none;"></div>
@@ -273,7 +266,7 @@
 
     const LOCALES = {
         uz: {
-            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", timeOutLoss: "Vaqtingiz tugadi! Siz mag'lub bo'ldingiz.", timeOutWin: "Raqibning vaqti tugadi! Siz yutdingiz.", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda diagonal bo'ylab diagonal harakatlar bilan o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiy emas.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. Har bir o'yinchiga o'yin boshida 10 daqiqa vaqt beriladi. Vaqti tugagan yoki balla toshlaridan ayrilgan o'yinchi mag'lub hisoblanadi.",
+            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda diagonal bo'ylab diagonal harakatlar bilan o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiy emas.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. O'yin toshlar tugaguncha yoki biron bir taraf taslim bo'lguncha davom etadi. Barcha toshlaridan ayrilgan yoki yurishga imkoni qolmagan o'yinchi mag'lub hisoblanadi.",
             ranks: [
                 { min: 0, name: "Yangi o'yinchi", icon: "🌱" },
                 { min: 10, name: "Havaskor", icon: "🥉" },
@@ -283,7 +276,7 @@
             ]
         },
         en: {
-            loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: " Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", timeOutLoss: "Time out! You lost.", timeOutWin: "Opponent time out! You won.", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is not mandatory.<br><br>4. Jumps can be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑). Kings can move any distance diagonally, both forward and backward.<br><br>6. Each player starts with 10 minutes. Running out of time or losing all pieces results in a loss.",
+            loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: " Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is not mandatory.<br><br>4. Jumps can be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑). Kings can move any distance diagonally, both forward and backward.<br><br>6. The game continues until all pieces are lost or a player resigns. Losing all pieces or having no moves results in a loss.",
             ranks: [
                 { min: 0, name: "New Player", icon: "🌱" },
                 { min: 10, name: "Amateur", icon: "🥉" },
@@ -293,7 +286,7 @@
             ]
         },
         ru: {
-            loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: " Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный логин или пароль!", timeOutLoss: "Время истекло! Вы проиграли.", timeOutWin: "Время соперника истекло! Вы выиграли.", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Взятие шашки соперника не обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑). Дамка может ходить на любое расстояние по диагонали, как вперед, так и назад.<br><br>6. Каждому иголку дается 10 минут на партию. Игрок, у которого закончилось время или не осталось шашек, проигрывает.",
+            loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: " Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный логин или parol!", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Взятие шашки соперника не обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑). Дамка может ходить на любое расстояние по диагонали, как вперед, так и назад.<br><br>6. Игра продолжается до тех пор, пока не закончатся фигуры или один из игроков не сдастся. Игрок, у которого не осталось шашек или ходов, проигрывает.",
             ranks: [
                 { min: 0, name: "Новый игрок", icon: "🌱" },
                 { min: 10, name: "Любитель", icon: "🥉" },
@@ -489,10 +482,6 @@
     let moveTimerInterval = null, exitInt = null;
     let isBotGame = false;
     let botRole = 'black'; 
-    
-    let whiteTimeLeft = 600; 
-    let blackTimeLeft = 600;
-    let lastClockUpdate = Date.now();
 
     function openProfile() {
         db.ref('stats/' + userId).once('value', (snap) => {
@@ -532,48 +521,8 @@
         document.getElementById('rules-modal').style.display = show ? 'flex' : 'none';
     }
 
-    function formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-
     function startMoveTimer() {
-        clearInterval(moveTimerInterval);
-        lastClockUpdate = Date.now();
-        
-        document.getElementById('clock-white').classList.toggle('active-clock', turn === 'white');
-        document.getElementById('clock-black').classList.toggle('active-clock', turn === 'black');
-
-        moveTimerInterval = setInterval(() => {
-            if (gameOver) { clearInterval(moveTimerInterval); return; }
-            
-            const now = Date.now();
-            const delta = Math.floor((now - lastClockUpdate) / 1000);
-            if (delta >= 1) {
-                if (turn === 'white') {
-                    whiteTimeLeft = Math.max(0, whiteTimeLeft - delta);
-                } else {
-                    blackTimeLeft = Math.max(0, blackTimeLeft - delta);
-                }
-                lastClockUpdate = now;
-                
-                document.getElementById('clock-white').innerText = (myRole === 'white' ? "Siz (Oq): " : "Raqib (Oq): ") + formatTime(whiteTimeLeft);
-                document.getElementById('clock-black').innerText = (myRole === 'black' ? "Siz (Qora): " : "Raqib (Qora): ") + formatTime(blackTimeLeft);
-                
-                if (!isBotGame && turn === myRole) {
-                    db.ref('games/' + gameId + '/clocks').set({ w: whiteTimeLeft, b: blackTimeLeft, ts: now });
-                }
-
-                if (whiteTimeLeft <= 0) {
-                    clearInterval(moveTimerInterval);
-                    finishGame(myRole === 'black', myRole === 'white' ? LOCALES[currentLang].timeOutLoss : LOCALES[currentLang].timeOutWin);
-                } else if (blackTimeLeft <= 0) {
-                    clearInterval(moveTimerInterval);
-                    finishGame(myRole === 'white', myRole === 'black' ? LOCALES[currentLang].timeOutLoss : LOCALES[currentLang].timeOutWin);
-                }
-            }
-        }, 500);
+        // Taymer tizimi o'chirildi
     }
 
     function getInitialBoard() {
@@ -651,7 +600,6 @@
     function finishGame(won, message) {
         if (gameOver) return;
         gameOver = true;
-        clearInterval(moveTimerInterval);
         document.getElementById('winner-msg').innerText = message;
         document.getElementById('game-over-overlay').style.display = 'flex';
         if (won) playSound('winner-sound'); else playSound('loser-sound');
@@ -702,8 +650,6 @@
         gameOver = false;
         mustJumpAgain = false;
         selected = null;
-        whiteTimeLeft = 600;
-        blackTimeLeft = 600;
 
         document.getElementById('menu').style.display = 'none';
         document.getElementById('board').style.display = 'grid';
@@ -719,9 +665,6 @@
         if (myRole === 'black') boardDiv.classList.add('rotate-board');
         else boardDiv.classList.remove('rotate-board');
 
-        document.getElementById('clock-white').innerText = (myRole === 'white' ? "Siz (Oq): " : "Raqib (Oq): ") + formatTime(whiteTimeLeft);
-        document.getElementById('clock-black').innerText = (myRole === 'black' ? "Siz (Qora): " : "Raqib (Qora): ") + formatTime(blackTimeLeft);
-
         if (!isBotGame) {
             db.ref('games/' + gameId + '/lastMove').on('value', (snap) => {
                 const data = snap.val();
@@ -729,18 +672,7 @@
                     board = JSON.parse(data.newBoard); turn = data.newTurn; 
                     if (data.hadCapture) playSound('capture-sound'); else playSound('move-sound');
                     render(); 
-                    if (!checkGameEndStatus()) startMoveTimer();
-                }
-            });
-
-            db.ref('games/' + gameId + '/clocks').on('value', (snap) => {
-                const data = snap.val();
-                if (data && turn !== myRole) {
-                    whiteTimeLeft = data.w;
-                    blackTimeLeft = data.b;
-                    lastClockUpdate = Date.now();
-                    document.getElementById('clock-white').innerText = (myRole === 'white' ? "Siz (Oq): " : "Raqib (Oq): ") + formatTime(whiteTimeLeft);
-                    document.getElementById('clock-black').innerText = (myRole === 'black' ? "Siz (Qora): " : "Raqib (Qora): ") + formatTime(blackTimeLeft);
+                    checkGameEndStatus();
                 }
             });
 
@@ -749,7 +681,7 @@
                 if (ev && ev.by !== userId && ev.type === 'resign') finishGame(true, LOCALES[currentLang].opponentResigned);
             });
         }
-        render(); startMoveTimer();
+        render();
         db.ref('presence/' + userId).update({ inGame: true });
 
         if (isBotGame && turn === botRole) {
@@ -802,7 +734,6 @@
         db.ref('games/' + gameId + '/lastMove').set({
             player: myRole, newBoard: JSON.stringify(board), newTurn: turn, ts: Date.now(), hadCapture: hadCapture
         });
-        db.ref('games/' + gameId + '/clocks').set({ w: whiteTimeLeft, b: blackTimeLeft, ts: Date.now() });
     }
 
     function resignGame() {
@@ -878,7 +809,7 @@
         for (let [dr, dc] of dirs) {
             if (piece.king) {
                 let r = row + dr, c = col + dc;
-                while (r >= 0 && r < 8 && c >= 8 && c < 8) {
+                while (r >= 0 && r < 8 && c >= 0 && c < 8) {
                     if (board[r][c] === "empty") moves.push({ from: {r: row, c: col}, to: {r, c} });
                     else break;
                     r += dr; c += dc;
@@ -921,7 +852,6 @@
             selected = null; mustJumpAgain = false; turn = (turn === 'white') ? 'black' : 'white'; 
             updateFirebase(!!cap); render(); 
             if (!checkGameEndStatus()) {
-                startMoveTimer(); 
                 if (isBotGame && turn === botRole) setTimeout(makeBotMove, 500);
             }
         }
