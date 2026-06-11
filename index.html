@@ -881,7 +881,7 @@
                 return;
             }
         }
-        let bestMove = minimaxDecision(board, 4);
+        let bestMove = minimaxDecision(board, 6); // Hisoblash chuqurligi ekspert darajasi uchun 6 ga oshirildi
         if (bestMove) {
             executeMove(bestMove.from.r, bestMove.from.c, bestMove.to.r, bestMove.to.c, bestMove.captured || null);
         } else { checkGameEndStatus(); }
@@ -894,7 +894,10 @@
         let bestMove = null; let bestValue = -Infinity;
         let captures = legals.filter(m => m.captured);
         let movesToEvaluate = captures.length > 0 ? captures : legals;
+        
+        // Alpha-Beta samaradorligini oshirish uchun majburiy yeyishlarni birinchi navbatda saralash
         movesToEvaluate.sort((a, b) => (b.captured ? 1 : 0) - (a.captured ? 1 : 0));
+        
         for (let move of movesToEvaluate) {
             let nextBoard = simulateMove(currentBoard, move);
             let value = minimax(nextBoard, depth - 1, alpha, beta, false);
@@ -911,12 +914,14 @@
         if (legals.length === 0) return isMaximizing ? -20000 : 20000;
         let captures = legals.filter(m => m.captured);
         let movesToEvaluate = captures.length > 0 ? captures : legals;
+        
         if (isMaximizing) {
             let maxEval = -Infinity;
             for (let move of movesToEvaluate) {
                 let nextBoard = simulateMove(tempBoard, move);
                 let score = minimax(nextBoard, depth - 1, alpha, beta, false);
-                maxEval = Math.max(maxEval, score); alpha = Math.max(alpha, score);
+                maxEval = Math.max(maxEval, score); 
+                alpha = Math.max(alpha, score);
                 if (beta <= alpha) break;
             }
             return maxEval;
@@ -924,8 +929,9 @@
             let minEval = Infinity;
             for (let move of movesToEvaluate) {
                 let nextBoard = simulateMove(tempBoard, move);
-                let score = minimax(tempBoard, depth - 1, alpha, beta, true);
-                minEval = Math.min(minEval, score); beta = Math.min(beta, score);
+                let score = minimax(nextBoard, depth - 1, alpha, beta, true);
+                minEval = Math.min(minEval, score); 
+                beta = Math.min(beta, score);
                 if (beta <= alpha) break;
             }
             return minEval;
@@ -934,25 +940,42 @@
 
     function evaluateBoard(b) {
         let score = 0;
+        // Ekspert pozitsiya og'irliklari matritsasi (Markaz nazorati, himoya zanjirlari va xavfsiz qanotlar)
         const positionWeight = [
-            [0, 4, 0, 4, 0, 4, 0, 4], [4, 0, 5, 0, 5, 0, 4, 0], [0, 5, 0, 7, 0, 6, 0, 4], [4, 0, 8, 0, 8, 0, 5, 0],
-            [0, 6, 0, 8, 0, 8, 0, 4], [4, 0, 6, 0, 6, 0, 5, 0], [0, 5, 0, 5, 0, 5, 0, 4], [4, 0, 4, 0, 4, 0, 4, 0]
+            [0, 40,  0, 40,  0, 40,  0, 40], 
+            [40, 0, 45,  0, 45,  0, 40,  0], 
+            [0, 45,  0, 50,  0, 45,  0, 40], 
+            [40, 0, 55,  0, 55,  0, 45,  0],
+            [0, 45,  0, 55,  0, 55,  0, 40], 
+            [40, 0, 45,  0, 45,  0, 45,  0], 
+            [0, 40,  0, 40,  0, 40,  0, 40], 
+            [40, 0, 40,  0, 40,  0, 40,  0]
         ];
+        
         for (let r = 0; r < 8; r++) {
             for (let c = 0; c < 8; c++) {
                 let p = b[r][c];
                 if (p && p !== "empty") {
                     let pieceScore = 0;
-                    if (p.king) pieceScore += 250;
-                    else {
-                        pieceScore += 50; pieceScore += (p.type === botRole) ? (r * 6) : ((7 - r) * 6);
+                    if (p.king) {
+                        pieceScore += 500; // Damka qiymati oshirildi
+                    } else {
+                        pieceScore += 100; // Oddiy tosh qiymati
+                        // Oldinga siljishni mukofotlash
+                        pieceScore += (p.type === botRole) ? (r * 15) : ((7 - r) * 15);
                         pieceScore += positionWeight[r][c];
-                        if (p.type === 'black' && r === 6) pieceScore += 20;
-                        if (p.type === 'white' && r === 1) pieceScore += 20;
+                        
+                        // Himoya qatorlari xavfsizligi
+                        if (p.type === 'black' && r === 6) pieceScore += 25;
+                        if (p.type === 'white' && r === 1) pieceScore += 25;
                     }
-                    if (c === 0 || c === 7) pieceScore += 15;
-                    if (p.type === 'black' && r === 0) pieceScore += 30;
-                    if (p.type === 'white' && r === 7) pieceScore += 30;
+                    // Doska chetidagi xavfsiz toshlar mukofoti
+                    if (c === 0 || c === 7) pieceScore += 20;
+                    
+                    // Orqa qator daxlsizligi (bazaviy mudofaa)
+                    if (p.type === 'black' && r === 0) pieceScore += 40;
+                    if (p.type === 'white' && r === 7) pieceScore += 40;
+                    
                     if (p.type === botRole) score += pieceScore; else score -= pieceScore;
                 }
             }
