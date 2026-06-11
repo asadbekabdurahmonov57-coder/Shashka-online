@@ -122,20 +122,11 @@
         #game-over-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 500; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #winner-msg { font-size: 9vw; font-weight: 900; color: #f1c40f; margin-bottom: 15px; padding: 0 10px; }
 
-        /* --- TELEGRAM BLOCKER CSS --- */
-        #tg-blocker { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
-        
         /* Qoidalar matni dizayni */
         .rules-text { text-align: left; font-size: 14px; line-height: 1.5; max-height: 40vh; overflow-y: auto; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #444; margin: 15px 0; }
     </style>
 </head>
 <body onclick="handleInteraction()" oncontextmenu="return false;"> 
-
-<div id="tg-blocker">
-    <h1 style="color: #e74c3c; font-size: 28px; margin-bottom: 15px;">⚠️ CHЕKLOV / RESTRICTION</h1>
-    <p style="font-size: 18px; line-height: 1.6;">Ushbu o'yin faqat <b>Telegram</b> ilovasi ichida ishlashga mo'ljallangan!<br>Iltimos, o'yinni Telegram bot orqali ishga tushiring.</p>
-    <p style="color: #aaa; margin-top: 20px; font-size: 14px;">This game only works inside the Telegram App.<br>Эта игра работает только внутри Telegram.</p>
-</div>
 
 <div id="loading-screen">
     <div id="loading-text">YUKLANMOQDA...</div>
@@ -256,20 +247,17 @@
 <audio id="lobby-music" src="kutish.mp3" preload="auto" loop></audio> 
 
 <script>
-    const tg = window.Telegram.WebApp;
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
     
-    // Telegram tekshiruvi: Agar Telegram muhiti aniqlanmasa sahifani bloklash
-    if (!tg || !tg.initData || tg.initData === "") {
-        document.getElementById('tg-blocker').style.display = 'flex';
-        if(document.getElementById('lang-setup-modal')) document.getElementById('lang-setup-modal').style.display = 'none';
-        throw new Error("O'yin faqat Telegram ichida ishlaydi!");
+    if (tg) {
+        tg.expand();
     }
 
-    tg.expand();
-
     function closeTelegramApp() {
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.close();
+        if (tg) {
+            tg.close();
+        } else {
+            window.close();
         }
     }
 
@@ -433,7 +421,7 @@
 
     let userId, currentName;
 
-    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
         userId = tg.initDataUnsafe.user.id.toString();
         currentName = tg.initDataUnsafe.user.first_name;
         localStorage.setItem('shashka_userid', userId);
