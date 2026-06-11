@@ -146,6 +146,9 @@
         /* --- ADMIN CHAT DESIGN (MUTLAQO YANGI QO'SHILGAN STYLES) --- */
         #admin-chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 650; flex-direction: column; justify-content: flex-end; }
         .admin-chat-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #444; font-weight: 900; color: #e67e22; }
+        
+        /* KO'K GALOCHKA CHAT ICHIDA HAM CHIQUVCHI STYLE */
+        .verified-badge { color: #3498db; margin-left: 3px; font-size: 12px; vertical-align: middle; }
     </style>
 </head>
 <body onclick="handleInteraction()" oncontextmenu="return false;"> 
@@ -170,7 +173,7 @@
 
 <div id="menu">
     <div class="top-btns">
-        <div class="circle-btn" id="my-profile-avatar-btn" onclick="openProfile()">👤</div>
+        <div class="circle-btn" id="my-profile-avatar-btn">👤</div>
         <div class="circle-btn" onclick="document.getElementById('lang-setup-modal').style.display = 'flex';">🌐</div>
         <div class="circle-btn" onclick="toggleLeaderboard(true)">🏆</div>
         <div class="circle-btn" style="border-color: #e67e22;" onclick="openAdminChatMenu()">💬</div>
@@ -190,7 +193,7 @@
     <br>
     <button id="exit-btn" class="btn" onclick="closeTelegramApp()">Chiqish</button>
     
-    <div style="margin-top: 15px; font-size: 13px; color: #777; letter-spacing: 1px;">Yaratuvchi: <span style="color: #f1c40f; font-weight: bold;">𝗔𝗯𝗱𝘂𝗿𝗮𝗵𝗺𝗼𝗻𝗼𝘃 ❙❙</span></div>
+    <div style="margin-top: 15px; font-size: 13px; color: #777; letter-spacing: 1px;">Yaratuvchi: <span style="color: #3498db; font-weight: bold;">Admin 🔵</span></div>
 </div>
 
 <div id="admin-modal" class="modal">
@@ -263,12 +266,12 @@
 <div id="chat-modal" onclick="toggleChat(false)">
     <div class="chat-container" onclick="event.stopPropagation()">
         <div class="chat-header">
-            <span>CHАT</span>
+            <span>RAQIB BILAN CHAT</span>
             <span class="chat-close" onclick="toggleChat(false)">✕</span>
         </div>
         <div id="chat-messages" class="chat-messages"></div>
         <div class="chat-input-area">
-            <input type="text" id="chat-input" class="chat-input" placeholder="Xabar yozing..." maxlength="100" onkeydown="if(event.key==='Enter') sendChatMessage()">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Raqibga xabar..." maxlength="100" onkeydown="if(event.key==='Enter') sendChatMessage()">
             <button class="chat-send-btn" onclick="sendChatMessage()">➡️</button>
         </div>
     </div>
@@ -507,7 +510,6 @@
                 clearInterval(interval);
                 document.getElementById('loading-screen').style.display = 'none';
                 
-                // Bloklanganlikni tekshirish tizimi (Realtime)
                 checkUserBanStatus();
 
                 if (!currentName) {
@@ -519,7 +521,6 @@
                     updatePresence();
                 }
                 updateMyRankInMenu();
-                // Adminlik huquqini tekshirish (Realtime rejimda ishlaydi)
                 checkAdminStatus();
             } else { width += 1; bar.style.width = width + '%'; }
         }, 20);
@@ -534,7 +535,6 @@
         }
     };
 
-    /* --- JORIY FOYDALANUVCHINING BLOKLANGANLIGINI TEKSHIRISH --- */
     function checkUserBanStatus() {
         db.ref('banned_users/' + userId).on('value', (snap) => {
             if (snap.val() === true) {
@@ -546,7 +546,6 @@
                 document.getElementById('profile-modal').style.display = 'none';
                 document.getElementById('admin-modal').style.display = 'none';
                 stopLobbyMusic();
-                // Tizimdagi onlaynligini o'chirish
                 db.ref('presence/' + userId).update({ online: false, inGame: false });
             } else {
                 document.getElementById('ban-screen').style.display = 'none';
@@ -554,10 +553,8 @@
         });
     }
 
-    /* --- ADMINLIK STATUSINI TEKSHIRISH (REALTIME TIZIMGA O'TKAZILDI) --- */
     function checkAdminStatus() {
         const btn = document.getElementById('admin-panel-btn');
-        // Firebase bazasi orqali doimiy kuzatish
         db.ref('banned_users/' + userId).on('value', (snap) => {
             if (userId === "6741153061" && snap.val() !== true) {
                 btn.style.display = 'block';
@@ -567,14 +564,12 @@
         });
     }
 
-    /* --- ADMIN PANEL OYNASINI OCHISH VA RO'YXATNI YUKLASH --- */
     function openAdminPanel() {
-        if (userId !== "6741153061") return; // Xavfsizlik chorasi
+        if (userId !== "6741153061") return; 
         document.getElementById('admin-modal').style.display = 'flex';
         const usersListDiv = document.getElementById('admin-users-list');
         usersListDiv.innerHTML = '<div style="color: #aaa; padding:10px;">Yuklanmoqda...</div>';
 
-        // Barcha mavjud stats (foydalanuvchilar) ro'yxatini yuklash
         db.ref('stats').once('value', (statsSnap) => {
             db.ref('banned_users').once('value', (banSnap) => {
                 const bannedUsers = banSnap.val() || {};
@@ -590,7 +585,7 @@
                     const item = document.createElement('div');
                     item.className = 'admin-user-item';
                     item.innerHTML = `
-                        <div style="font-weight: bold; color: #f1c40f;">${uData.name || 'Noma\'lum'}</div>
+                        <div style="font-weight: bold; color: #f1c40f;">${uData.name || 'Noma\'lum'} ${uId === "6741153061" ? '<span class="verified-badge">🔵</span>' : ''}</div>
                         <div style="font-size: 11px; color: #888;">ID: ${uId} | W: ${uData.wins || 0} L: ${uData.losses || 0}</div>
                         <div class="admin-user-actions">
                             ${isBanned ? 
@@ -610,13 +605,12 @@
         });
     }
 
-    /* --- ADMIN FUNKSIYALARI (HAMMANI ALOHIDA BLOKLASH VA O'CHIRISH) --- */
     window.adminBanUser = function(targetId) {
         if (userId !== "6741153061") return;
         if (targetId === userId) { alert("O'zingizni bloklay olmaysiz!"); return; }
         if (confirm("Ushbu foydalanuvchini bloklamoqchimisiz?")) {
             db.ref('banned_users/' + targetId).set(true).then(() => {
-                openAdminPanel(); // Ro'yxatni yangilash
+                openAdminPanel(); 
             });
         }
     };
@@ -625,7 +619,7 @@
         if (userId !== "6741153061") return;
         if (confirm("Ushbu foydalanuvchini blokdan chiqarmoqchimisiz?")) {
             db.ref('banned_users/' + targetId).remove().then(() => {
-                openAdminPanel(); // Ro'yxatni yangilash
+                openAdminPanel(); 
             });
         }
     };
@@ -637,14 +631,13 @@
             db.ref('stats/' + targetId).remove();
             db.ref('presence/' + targetId).remove();
             db.ref('banned_users/' + targetId).remove().then(() => {
-                openAdminPanel(); // Ro'yxatni yangilash
+                openAdminPanel(); 
             });
         }
     };
 
     function updatePresence() {
         if (!userId || !currentName) return;
-        // Agar foydalanuvchi bloklangan bo'lsa, onlayn qilmaslik
         db.ref('banned_users/' + userId).once('value', (snap) => {
             if (snap.val() === true) return;
             
@@ -742,7 +735,7 @@
                 snap.forEach(child => { players.push(child.val()); });
                 players.reverse().forEach((p, index) => {
                     const r = getRank(p.wins || 0);
-                    list.innerHTML += `<div class="user-item"><span>${index+1}. ${p.name} <br><small>${r.icon} ${r.name}</small></span><span><b style="color:#2ecc71">W:${p.wins||0}</b></span></div>`;
+                    list.innerHTML += `<div class="user-item"><span>${index+1}. ${p.name} ${p.uid === "6741153061" ? '<span class="verified-badge">🔵</span>' : ''} <br><small>${r.icon} ${r.name}</small></span><span><b style="color:#2ecc71">W:${p.wins||0}</b></span></div>`;
                 });
             });
         }
@@ -812,7 +805,6 @@
         
         document.getElementById('menu').style.display = 'flex';
         updateMyRankInMenu();
-        // Menuga qaytganda admin panel yo'qolib qolmasligini ta'minlash
         checkAdminStatus();
         if (musicStarted) {
             const lobbyMusic = document.getElementById('lobby-music');
@@ -891,7 +883,11 @@
                 const isMyMsg = msg.senderId === userId;
                 const msgDiv = document.createElement('div');
                 msgDiv.className = `chat-msg ${isMyMsg ? 'msg-my' : 'msg-opp'}`;
-                msgDiv.innerHTML = `<span class="msg-sender">${isMyMsg ? 'Siz' : msg.senderName}</span>${msg.text}`;
+                
+                // Admin bo'lsa xabar yoniga ko'k galochka chiqarish logikasi
+                let isSenderAdmin = msg.senderId === "6741153061" ? '<span class="verified-badge">🔵</span>' : '';
+                
+                msgDiv.innerHTML = `<span class="msg-sender">${isMyMsg ? 'Siz' : msg.senderName} ${isSenderAdmin}</span>${msg.text}`;
                 container.appendChild(msgDiv);
             });
             container.scrollTop = container.scrollHeight;
@@ -905,7 +901,7 @@
         
         db.ref('chats/' + gameId).push({
             senderId: userId,
-            senderName: currentName,
+            senderName: (userId === "6741153061") ? "Admin" : currentName,
             text: text,
             ts: Date.now()
         });
@@ -1282,7 +1278,6 @@
     let musicStarted = false;
     function handleInteraction() {
         if (!musicStarted && !inGame) {
-            // Bloklangan odam ekranga bossa musiqa chalinmasligi uchun
             db.ref('banned_users/' + userId).once('value', (snap) => {
                 if (snap.val() === true) return;
                 const lobbyMusic = document.getElementById('lobby-music');
@@ -1291,7 +1286,7 @@
         }
     }
 
-    /* --- MUTLAQO YANGI QO'SHILGAN ADMIN CHAT LOGIKASI TIZIMI --- */
+    /* --- ADMIN CHAT LOGIKASI TIZIMI --- */
     let selectedAdminChatUser = null; 
     let adminChatListener = null;
 
@@ -1301,12 +1296,10 @@
         const titleText = document.getElementById('admin-chat-title-text');
         
         if (userId === "6741153061") {
-            // JORiY FOYDALANUVCHI ADMIN BO'LSA
             userSelector.style.display = 'block';
             titleText.innerText = "🛠️ ADMIN CHAT (PANEL)";
             loadAdminChatUsersList();
         } else {
-            // ODDIY FOYDALANUVCHI BO'LSA
             userSelector.style.display = 'none';
             titleText.innerText = "💬 ADMIN BILAN ALOHIDA CHAT";
             selectedAdminChatUser = userId; 
@@ -1333,7 +1326,6 @@
                 const uId = child.key;
                 const messages = child.val();
                 
-                // Oxirgi xabarni topish va foydalanuvchi ismini olish
                 let lastMsgText = "...";
                 let senderName = "O'yinchi";
                 let keys = Object.keys(messages);
@@ -1343,7 +1335,6 @@
                     if (lastMsg.senderId !== "6741153061") {
                         senderName = lastMsg.senderName;
                     } else {
-                        // Agar oxirgi javobni admin yozgan bo'lsa ham foydalanuvchi ismini oldingi xabarlardan qidirish
                         for (let k of keys) {
                             if (messages[k].senderId !== "6741153061") {
                                 senderName = messages[k].senderName;
@@ -1367,7 +1358,7 @@
                 
                 item.onclick = () => {
                     selectedAdminChatUser = uId;
-                    loadAdminChatUsersList(); // Rangni yangilash
+                    loadAdminChatUsersList(); 
                     listenToAdminChatMessages(uId);
                 };
                 selector.appendChild(item);
