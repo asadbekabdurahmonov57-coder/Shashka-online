@@ -69,6 +69,7 @@
         #menu h1 { color: #f1c40f; margin-bottom: 20px; font-weight: 900; }
         .top-btns { position: absolute; top: 20px; width: 90%; display: flex; justify-content: space-between; align-items: center; gap: 5px; }
         .circle-btn { width: 45px; height: 45px; font-size: 22px; cursor: pointer; background: #2c2c2c; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.3); -webkit-tap-highlight-color: transparent !important; outline: none !important; }
+        .circle-btn img { width: 24px; height: 24px; object-fit: contain; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 200; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { width: 90%; max-width: 400px; background: #2c2c2c; border-radius: 20px; padding: 25px; text-align: center; border: 2px solid #f1c40f; position: relative; }
@@ -123,6 +124,7 @@
         #winner-msg { font-size: 9vw; font-weight: 900; color: #f1c40f; margin-bottom: 15px; padding: 0 10px; }
 
         .rules-text { text-align: left; font-size: 14px; line-height: 1.5; max-height: 40vh; overflow-y: auto; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #444; margin: 15px 0; }
+        .lead-title-img { width: 28px; height: 28px; vertical-align: middle; margin-right: 5px; object-fit: contain; }
     </style>
 </head>
 <body onclick="handleInteraction()" oncontextmenu="return false;"> 
@@ -143,7 +145,7 @@
     <div class="top-btns">
         <div class="circle-btn" onclick="openProfile()">👤</div>
         <div class="circle-btn" onclick="document.getElementById('lang-setup-modal').style.display = 'flex';">🌐</div>
-        <div class="circle-btn" onclick="toggleLeaderboard(true)">🏆</div>
+        <div class="circle-btn" onclick="toggleLeaderboard(true)"><img src="kodga oʻrinlar.png" alt="Leaderboard"></div>
         <div class="circle-btn" onclick="toggleRules(true)">❓</div>
     </div>
     <h1>♟️ SHASHKA ONLINE</h1>
@@ -190,7 +192,7 @@
 
 <div id="leaderboard-modal" class="modal">
     <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
-        <h2 id="lead-title" style="font-weight: 900; color:#f1c40f;">🏆 Eng yaxshilar</h2>
+        <h2 id="lead-title" style="font-weight: 900; color:#f1c40f;"><img src="kodga oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> Eng yaxshilar</h2>
         <div id="leaderboard-list"></div>
         <button id="lead-close-btn" class="btn" onclick="toggleLeaderboard(false)">Yopish</button>
     </div>
@@ -262,7 +264,7 @@
 
     const LOCALES = {
         uz: {
-            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: "🏆 Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", timeOutLoss: "Vaqtingiz tugadi! Siz mag'lub bo'ldingiz.", timeOutWin: "Raqibning vaqti tugadi! Siz yutdingiz.", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda diagonal bo'ylab diagonal harakatlar bilan o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiy emas.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. Har bir o'yinchiga o'yin boshida 10 daqiqa vaqt beriladi. Vaqti tugagan yoki balla toshlaridan ayrilgan o'yinchi mag'lub hisoblanadi.",
+            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", timeOutLoss: "Vaqtingiz tugadi! Siz mag'lub bo'ldingiz.", timeOutWin: "Raqibning vaqti tugadi! Siz yutdingiz.", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda diagonal bo'ylab diagonal harakatlar bilan o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiy emas.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. Har bir o'yinchiga o'yin boshida 10 daqiqa vaqt beriladi. Vaqti tugagan yoki balla toshlaridan ayrilgan o'yinchi mag'lub hisoblanadi.",
             ranks: [
                 { min: 0, name: "Yangi o'yinchi", icon: "🌱" },
                 { min: 10, name: "Havaskor", icon: "🥉" },
@@ -272,7 +274,7 @@
             ]
         },
         en: {
-            loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: "🏆 Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", timeOutLoss: "Time out! You lost.", timeOutWin: "Opponent time out! You won.", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is not mandatory.<br><br>4. Jumps can be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑). Kings can move any distance diagonally, both forward and backward.<br><br>6. Each player starts with 10 minutes. Running out of time or losing all pieces results in a loss.",
+            loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: " Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", timeOutLoss: "Time out! You lost.", timeOutWin: "Opponent time out! You won.", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is not mandatory.<br><br>4. Jumps can be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑). Kings can move any distance diagonally, both forward and backward.<br><br>6. Each player starts with 10 minutes. Running out of time or losing all pieces results in a loss.",
             ranks: [
                 { min: 0, name: "New Player", icon: "🌱" },
                 { min: 10, name: "Amateur", icon: "🥉" },
@@ -282,7 +284,7 @@
             ]
         },
         ru: {
-            loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: "🏆 Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный логин или пароль!", timeOutLoss: "Время истекло! Вы проиграли.", timeOutWin: "Время соперника истекло! Вы выиграли.", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Взятие шашки соперника не обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑). Дамка может ходить на любое расстояние по диагонали, как вперед, так и назад.<br><br>6. Каждому иголку дается 10 минут на партию. Игрок, у которого закончилось время или не осталось шашек, проигрывает.",
+            loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: " Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный логин или пароль!", timeOutLoss: "Время истекло! Вы проиграли.", timeOutWin: "Время соперника истекло! Вы выиграли.", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Взятие шашки соперника не обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑). Дамка может ходить на любое расстояние по диагонали, как вперед, так и назад.<br><br>6. Каждому иголку дается 10 минут на партию. Игрок, у которого закончилось время или не осталось шашек, проигрывает.",
             ranks: [
                 { min: 0, name: "Новый игрок", icon: "🌱" },
                 { min: 10, name: "Любитель", icon: "🥉" },
@@ -375,13 +377,16 @@
         document.getElementById('label-wins').innerText = lang.wins;
         document.getElementById('label-losses').innerText = lang.losses;
         document.getElementById('prof-close-btn').innerText = lang.close;
-        document.getElementById('lead-title').innerText = lang.bestPlayers;
         document.getElementById('lead-close-btn').innerText = lang.close;
         document.getElementById('resign-btn').innerText = lang.resign;
         document.getElementById('edit-title-label').innerText = lang.editPrompt;
         document.getElementById('rules-title').innerText = lang.rulesTitle;
         document.getElementById('rules-content').innerHTML = lang.rulesText;
         document.getElementById('rules-close-btn').innerText = lang.close;
+        
+        // Matn yangilanganda rasmdan keyingi matn to'g'ri chiqishi uchun
+        const imgHTML = '<img src="kodga oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> ';
+        document.getElementById('lead-title').innerHTML = imgHTML + lang.bestPlayers;
     }
 
     function saveUserName() {
@@ -840,7 +845,7 @@
         for (let [dr, dc] of dirs) {
             if (piece.king) {
                 let r = row + dr, c = col + dc;
-                while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                while (r >= 0 && r < 8 && c >= 8 && c < 8) {
                     if (board[r][c] === "empty") moves.push({ from: {r: row, c: col}, to: {r, c} });
                     else break;
                     r += dr; c += dc;
