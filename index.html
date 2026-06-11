@@ -61,7 +61,7 @@
         .input-field { background: #2c2c2c; border: 2px solid #f1c40f; color: white; padding: 15px; border-radius: 10px; width: 80%; font-size: 18px; text-align: center; margin-bottom: 20px; outline: none; }
 
         /* --- ASOSIY CSS QISMI --- */
-        * { box-sizing: border-box; touch-action: manipulation; }
+        * { box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; outline: none; }
         body { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #1a1a1a; margin: 0; font-family: sans-serif; overflow: hidden; color: white; }
         #menu { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         #menu h1 { color: #f1c40f; margin-bottom: 20px; font-weight: 900; }
@@ -941,7 +941,7 @@
             let minEval = Infinity;
             for (let move of movesToEvaluate) {
                 let nextBoard = simulateMove(tempBoard, move);
-                let score = minimax(nextBoard, depth - 1, alpha, beta, true);
+                let score = minimax(tempBoard, depth - 1, alpha, beta, true);
                 minEval = Math.min(minEval, score); beta = Math.min(beta, score);
                 if (beta <= alpha) break;
             }
