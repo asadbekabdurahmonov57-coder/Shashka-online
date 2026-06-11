@@ -9,7 +9,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        /* --- LONG PRESS & COPY PREVENTION --- */
+        /* --- LONG PRESS & COPY PREVENTION & TAP HIGHLIGHT FIX --- */
         body, *, .piece, .cell, .btn, .rules-text, .modal-content, p, h1, h2, h3, div {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -17,6 +17,8 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            -webkit-tap-highlight-color: transparent !important;
+            outline: none !important;
         }
         
         input, textarea {
@@ -61,12 +63,12 @@
         .input-field { background: #2c2c2c; border: 2px solid #f1c40f; color: white; padding: 15px; border-radius: 10px; width: 80%; font-size: 18px; text-align: center; margin-bottom: 20px; outline: none; }
 
         /* --- ASOSIY CSS QISMI --- */
-        * { box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
         body { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #1a1a1a; margin: 0; font-family: sans-serif; overflow: hidden; color: white; }
         #menu { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         #menu h1 { color: #f1c40f; margin-bottom: 20px; font-weight: 900; }
         .top-btns { position: absolute; top: 20px; width: 90%; display: flex; justify-content: space-between; align-items: center; gap: 5px; }
-        .circle-btn { width: 45px; height: 45px; font-size: 22px; cursor: pointer; background: #2c2c2c; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .circle-btn { width: 45px; height: 45px; font-size: 22px; cursor: pointer; background: #2c2c2c; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.3); -webkit-tap-highlight-color: transparent !important; outline: none !important; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 200; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { width: 90%; max-width: 400px; background: #2c2c2c; border-radius: 20px; padding: 25px; text-align: center; border: 2px solid #f1c40f; position: relative; }
@@ -76,10 +78,10 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .stat-box { background: #1a1a1a; padding: 10px; border-radius: 10px; border: 1px solid #444; }
 
-        .btn { background: #f1c40f; color: black; border: none; padding: 15px 30px; border-radius: 10px; font-weight: 900; font-size: 18px; margin: 10px; cursor: pointer; width: 80%; text-transform: uppercase; }
+        .btn { background: #f1c40f; color: black; border: none; padding: 15px 30px; border-radius: 10px; font-weight: 900; font-size: 18px; margin: 10px; cursor: pointer; width: 80%; text-transform: uppercase; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
         #online-list { width: 80%; max-height: 200px; overflow-y: auto; background: #2c2c2c; border-radius: 10px; padding: 10px; font-weight: 700; margin-top: 10px; }
         .user-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #444; align-items: center; }
-        .invite-btn { background: #2ecc71; color: white; border: none; padding: 7px 12px; border-radius: 5px; cursor: pointer; font-weight: 900; }
+        .invite-btn { background: #2ecc71; color: white; border: none; padding: 7px 12px; border-radius: 5px; cursor: pointer; font-weight: 900; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
         
         #status-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; width: 100%; }
         #status { font-size: 4.5vw; font-weight: 900; text-transform: uppercase; text-align: center; background: #2c2c2c; padding: 8px 20px; border-radius: 30px; min-width: 200px; border: 2px solid #444; }
@@ -94,15 +96,15 @@
         .cell { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
         .black-cell { background-color: #5d4037; }
         .white-cell { background-color: #d7ccc8; }
-        .piece { width: 82%; height: 82%; border-radius: 50%; position: relative; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; transition: transform 0.2s; }
+        .piece { width: 82%; height: 82%; border-radius: 50%; position: relative; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; transition: transform 0.2s; -webkit-tap-highlight-color: transparent !important; }
         .white-piece { background: radial-gradient(circle, #ffffff, #e0e0e0); border: 2px solid #aaa; }
         .black-piece { background: radial-gradient(circle, #3a3a3a, #1a1a1a); border: 2px solid #333; }
         .selected { transform: scale(1.1); box-shadow: 0 0 15px #ffeb3b; border: 3px solid #ffeb3b; }
         .king::after { content: '👑'; font-size: 6vw; }
         
         .game-controls { display: flex; gap: 10px; width: 95vw; max-width: 450px; margin-top: 15px; }
-        #resign-btn { flex: 1; display: none; background: #e74c3c; color: white; padding: 12px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; }
-        #chat-toggle-btn { flex: 1; display: none; background: #3498db; color: white; padding: 12px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        #resign-btn { flex: 1; display: none; background: #e74c3c; color: white; padding: 12px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
+        #chat-toggle-btn { flex: 1; display: none; background: #3498db; color: white; padding: 12px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
         
         #chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 600; flex-direction: column; justify-content: flex-end; }
         .chat-container { background: #2c2c2c; width: 100%; max-height: 70vh; border-top-left-radius: 20px; border-top-right-radius: 20px; display: flex; flex-direction: column; border-top: 3px solid #3498db; }
@@ -115,7 +117,7 @@
         .msg-sender { font-size: 11px; color: #f1c40f; margin-bottom: 2px; display: block; font-weight: bold; }
         .chat-input-area { display: flex; padding: 10px; gap: 8px; border-top: 1px solid #444; background: #1a1a1a; }
         .chat-input { flex: 1; background: #2c2c2c; border: 1px solid #555; border-radius: 20px; padding: 10px 15px; color: white; outline: none; font-size: 15px; }
-        .chat-send-btn { background: #3498db; border: none; color: white; padding: 0 18px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        .chat-send-btn { background: #3498db; border: none; color: white; padding: 0 18px; border-radius: 20px; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
 
         #game-over-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 500; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #winner-msg { font-size: 9vw; font-weight: 900; color: #f1c40f; margin-bottom: 15px; padding: 0 10px; }
