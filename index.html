@@ -11,7 +11,7 @@
     <style>
         /* --- LONG PRESS & COPY PREVENTION & TAP HIGHLIGHT FIX --- */
         body, *, .piece, .cell, .btn, .rules-text, .modal-content, p, h1, h2, h3, div {
-            -webkit-touch-callout: none !important; /* iOS uzoq bosganda menyu chiqishini butunlay yo'qotadi */
+            -webkit-touch-callout: none !important;
             -webkit-user-select: none !important;
             -khtml-user-select: none !important;
             -moz-user-select: none !important;
@@ -28,12 +28,11 @@
             user-select: text !important;
         }
 
-        /* Rasmlarni drag qilish (suyrab o'tish) va uzoq bosganda URL ko'rsatishini cheklash */
         img {
             -webkit-touch-callout: none !important;
             -webkit-user-drag: none !important;
             user-drag: none !important;
-            pointer-events: none; /* Rasm ustidagi bosish hodisalarini otasiga o'tkazadi */
+            pointer-events: none;
         }
 
         /* --- LOADING PROGRESS BAR CSS --- */
@@ -78,7 +77,6 @@
         .top-btns { position: absolute; top: 20px; width: 90%; display: flex; justify-content: space-between; align-items: center; gap: 5px; }
         .circle-btn { width: 45px; height: 45px; font-size: 22px; cursor: pointer; background: #2c2c2c; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.3); -webkit-tap-highlight-color: transparent !important; outline: none !important; overflow: hidden; }
         .circle-btn img { width: 100%; height: 100%; object-fit: cover; }
-        .leader-icon-btn { width: 24px; height: 24px; object-fit: contain !important; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 200; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { width: 90%; max-width: 400px; background: #2c2c2c; border-radius: 20px; padding: 25px; text-align: center; border: 2px solid #f1c40f; position: relative; }
@@ -131,7 +129,6 @@
 
         .rules-text { text-align: left; font-size: 14px; line-height: 1.5; max-height: 40vh; overflow-y: auto; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #444; margin: 15px 0; }
         .lead-title-img { font-size: 24px; vertical-align: middle; margin-right: 5px; }
-        
         .user-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
     </style>
 </head>
@@ -263,7 +260,6 @@
         tg.expand();
     }
 
-    // Uzoq bosilganda chiqadigan kontekst menyuni butun sahifa bo'ylab bloklash qat'iylashtirildi
     window.addEventListener('contextmenu', function(e) { 
         e.preventDefault(); 
         return false; 
@@ -279,7 +275,7 @@
 
     const LOCALES = {
         uz: {
-            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda, diagonal bo'ylab harakatlanish orqali o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiydir.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. O'yin toshlar tugaguncha yoki biron bir taraf taslim bo'lguncha davom etadi. Barcha toshlaridan ayrilgan yoki yurishga imkoni qolmagan o'yinchi mag'lub hisoblanadi.",
+            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda, diagonal bo'ylab harakatlanish orqali o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiydir.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi va uning yurish navbati tugaydi.<br><br>6. O'yin toshlar tugaguncha yoki biron bir taraf taslim bo'lguncha davom etadi. Barcha toshlaridan ayrilgan yoki yurishga imkoni qolmagan o'yinchi mag'lub hisoblanadi.",
             ranks: [
                 { min: 0, name: "Yangi o'yinchi", icon: "🌱" },
                 { min: 10, name: "Havaskor", icon: "🥉" },
@@ -289,7 +285,7 @@
             ]
         },
         en: {
-            loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: " Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is mandatory if available.<br><br>4. Jumps must be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑). Kings can move any distance diagonally, both forward and backward.<br><br>6. The game continues until all pieces are lost or a player resigns. Losing all pieces or having no legal moves results in a loss.",
+            loading: "LOADING...", enterName: "ENTER YOUR NAME", placeholder: "Nickname...", save: "SAVE", welcome: "👋 Hello, ", onlinePlayers: "🟢 Online Players:", noPlayers: "No one here yet...", exit: "Exit", profile: "PROFILE", wins: "Wins", losses: "Losses", close: "Close", bestPlayers: " Leaderboard", botBtn: "🤖 PLAY WITH BOT", noOnline: "No online players right now", invite: "🎮 Invite", whiteTurn: "⚪ White's turn", blackTurn: "⚫ Black's turn", resign: "🏳️ Resign", menuReturn: "Return to menu: ", nameAlert: "Name must be at least 3 characters!", editPrompt: "Enter new name:", resignConfirm: "Do you want to resign?", opponentResigned: "Opponent resigned!", youResigned: "You resigned!", lostNoPieces: "You lost! (No pieces left/No moves)", youWon: "You won!", nextRank: "Next rank", forNextRank: "needs", winsNeeded: "more wins.", maxRank: "You are at the highest rank!", inviteSent: "invited you. Do you accept?", authCancel: "Login canceled.", authFail: "Incorrect login or password!", rulesTitle: "❓ Game Rules", rulesText: "1. The game is played on dark squares only, moving diagonally.<br><br>2. Ordinary pieces can only move forward one square at a time.<br><br>3. Capturing an opponent's piece is mandatory if available.<br><br>4. Jumps must be chained if multiple captures are possible in a single turn.<br><br>5. Reaching the furthest row promotes a piece to a 'King' (👑) and its turn ends immediately.<br><br>6. The game continues until all pieces are lost or a player resigns. Losing all pieces or having no legal moves results in a loss.",
             ranks: [
                 { min: 0, name: "New Player", icon: "🌱" },
                 { min: 10, name: "Amateur", icon: "🥉" },
@@ -299,7 +295,7 @@
             ]
         },
         ru: {
-            loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: " Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный login или parol!", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Если есть возможность взять шашку соперника, взятие обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑). Дамка может ходить на любое расстояние по диагонали, как вперед, так и назад.<br><br>6. Игра продолжается до тех пор, пока не закончатся фигуры или один из игроков не сдастся. Игрок, у которого не осталось шашек или ходов, проигрывает.",
+            loading: "ЗАГРУЗКА...", enterName: "ВВЕДИТЕ СВОЕ ИМЯ", placeholder: "Никнейм...", save: "СОХРАНИТЬ", welcome: "👋 Привет, ", onlinePlayers: "🟢 Игроки онлайн:", noPlayers: "Никого еще нет...", exit: "Выход", profile: "ПРОФИЛЬ", wins: "Победы", losses: "Поражения", close: "Закрыть", bestPlayers: " Лидеры", botBtn: "🤖 ИГРАТЬ С БОТОМ", noOnline: "Сейчас нет игроков онлайн", invite: "🎮 Пригласить", whiteTurn: "⚪ Ход белых", blackTurn: "⚫ Ход черных", resign: "🏳️ Сдаться", menuReturn: "Вернуться в меню: ", nameAlert: "Имя должно содержать не менее 3 символов!", editPrompt: "Введите новое имя:", resignConfirm: "Вы хотите сдаться?", opponentResigned: "Соперник сдался!", youResigned: "Вы сдались!", lostNoPieces: "Вы проиграли! (Не осталось фигур/Нет ходов)", youWon: "Вы выиграли!", nextRank: "Следующий ранг", forNextRank: "нужно еще", winsNeeded: "побед.", maxRank: "У вас самый высокий ранг!", inviteSent: "пригласил вас. Принять?", authCancel: "Вход отменен.", authFail: "Неверный login или parol!", rulesTitle: "❓ Правила игры", rulesText: "1. Игра ведется только по темным клеткам по диагонали.<br><br>2. Обычные шашки ходят только вперед на одну клетку.<br><br>3. Если есть возможность взять шашку соперника, взятие обязательно.<br><br>4. Если возможна серия взятий, игрок обязан продолжить прыжки в том же ходу.<br><br>5. При достижении противоположного края доски шашка становится 'Дамкой' (👑) и её ход на этом заканчивается.<br><br>6. Игра продолжается до тех пор, пока не закончатся фигуры или один из игроков не сдастся. Игрок, у которого не осталось шашек или ходов, проигрывает.",
             ranks: [
                 { min: 0, name: "Новый игрок", icon: "🌱" },
                 { min: 10, name: "Любитель", icon: "🥉" },
@@ -342,7 +338,6 @@
 
     function setupUserAvatars() {
         if (userAvatarUrl) {
-            // Rasmlarga dynamic tarzda ondragstart="return false;" qo'shildi, bu havolani sudrab nusxalashni yopadi
             const topBtn = document.getElementById('my-profile-avatar-btn');
             if (topBtn) topBtn.innerHTML = `<img src="${userAvatarUrl}" class="user-avatar-img" ondragstart="return false;" alt="Avatar">`;
             
@@ -532,9 +527,6 @@
 
     function toggleRules(show) {
         document.getElementById('rules-modal').style.display = show ? 'flex' : 'none';
-    }
-
-    function startMoveTimer() {
     }
 
     function getInitialBoard() {
@@ -851,16 +843,25 @@
 
     function executeMove(fR, fC, tR, tC, cap = null) {
         const piece = board[fR][fC];
+        let becameKingNow = false;
+
         if (cap) { board[cap.r][cap.c] = "empty"; playSound('capture-sound'); } else playSound('move-sound');
         board[tR][tC] = piece; board[fR][fC] = "empty";
-        if ((piece.type === 'white' && tR === 0) || (piece.type === 'black' && tR === 7)) piece.king = true;
         
-        if (cap && getCaptureMoves(tR, tC, board[tR][tC]).length > 0) { 
+        // Damka zonasiga yetganini tekshirish
+        if (!piece.king && ((piece.type === 'white' && tR === 0) || (piece.type === 'black' && tR === 7))) {
+            piece.king = true;
+            becameKingNow = true; // Hozirgina damka bo'lganini belgilash
+        }
+        
+        // Agar raqib toshini urgan bo'lsa VA hozirgina damka bo'lib qolmagan bo'lsa, yana urish imkonini tekshiradi
+        if (cap && !becameKingNow && getCaptureMoves(tR, tC, board[tR][tC]).length > 0) { 
             selected = { r: tR, c: tC }; mustJumpAgain = true; 
             updateFirebase(true); render();
             if (isBotGame && turn === botRole) setTimeout(makeBotMove, 400);
         }
         else { 
+            // Agar oddiy tosh urib borib damkaga aylangan bo'lsa, bu yerga tushadi va navbat tugaydi
             selected = null; mustJumpAgain = false; turn = (turn === 'white') ? 'black' : 'white'; 
             updateFirebase(!!cap); render(); 
             if (!checkGameEndStatus()) {
