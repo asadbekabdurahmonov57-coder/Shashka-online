@@ -497,7 +497,7 @@
                     updatePresence();
                 }
                 updateMyRankInMenu();
-                // Adminlik huquqini tekshirish
+                // Adminlik huquqini tekshirish (Realtime rejimda ishlaydi)
                 checkAdminStatus();
             } else { width += 1; bar.style.width = width + '%'; }
         }, 20);
@@ -532,14 +532,17 @@
         });
     }
 
-    /* --- ADMINLIK STATUSINI TEKSHIRISH (FAQAT JORIY ID RAQAMGA RUXSAT) --- */
+    /* --- ADMINLIK STATUSINI TEKSHIRISH (REALTIME TIZIMGA O'TKAZILDI) --- */
     function checkAdminStatus() {
         const btn = document.getElementById('admin-panel-btn');
-        if (userId === "6741153061") {
-            btn.style.display = 'block';
-        } else {
-            btn.style.display = 'none';
-        }
+        // Firebase bazasi orqali doimiy kuzatish
+        db.ref('banned_users/' + userId).on('value', (snap) => {
+            if (userId === "6741153061" && snap.val() !== true) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
     }
 
     /* --- ADMIN PANEL OYNASINI OCHISH VA RO'YXATNI YUKLASH --- */
@@ -787,6 +790,8 @@
         
         document.getElementById('menu').style.display = 'flex';
         updateMyRankInMenu();
+        // Menuga qaytganda admin panel yo'qolib qolmasligini ta'minlash
+        checkAdminStatus();
         if (musicStarted) {
             const lobbyMusic = document.getElementById('lobby-music');
             lobbyMusic.play().catch(() => {});
