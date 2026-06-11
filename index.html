@@ -122,7 +122,7 @@
         #winner-msg { font-size: 9vw; font-weight: 900; color: #f1c40f; margin-bottom: 15px; padding: 0 10px; }
 
         .rules-text { text-align: left; font-size: 14px; line-height: 1.5; max-height: 40vh; overflow-y: auto; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #444; margin: 15px 0; }
-        .lead-title-img { width: 28px; height: 28px; vertical-align: middle; margin-right: 5px; object-fit: contain; }
+        .lead-title-img { font-size: 24px; vertical-align: middle; margin-right: 5px; }
         
         /* Dinamik profil rasmi uchun maxsus uslub */
         .user-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -146,7 +146,7 @@
     <div class="top-btns">
         <div class="circle-btn" id="my-profile-avatar-btn" onclick="openProfile()">👤</div>
         <div class="circle-btn" onclick="document.getElementById('lang-setup-modal').style.display = 'flex';">🌐</div>
-        <div class="circle-btn" onclick="toggleLeaderboard(true)"><img src="oʻrinlar.png" class="leader-icon-btn" alt="Leaderboard"></div>
+        <div class="circle-btn" onclick="toggleLeaderboard(true)">🏆</div>
         <div class="circle-btn" onclick="toggleRules(true)">❓</div>
     </div>
     <h1>♟️ SHASHKA ONLINE</h1>
@@ -197,7 +197,7 @@
 
 <div id="leaderboard-modal" class="modal">
     <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
-        <h2 id="lead-title" style="font-weight: 900; color:#f1c40f;"><img src="oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> Eng yaxshilar</h2>
+        <h2 id="lead-title" style="font-weight: 900; color:#f1c40f;"><span class="lead-title-img">🏆</span> Eng yaxshilar</h2>
         <div id="leaderboard-list"></div>
         <button id="lead-close-btn" class="btn" onclick="toggleLeaderboard(false)">Yopish</button>
     </div>
@@ -266,7 +266,7 @@
 
     const LOCALES = {
         uz: {
-            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda diagonal bo'ylab diagonal harakatlar bilan o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiy emas.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. O'yin toshlar tugaguncha yoki biron bir taraf taslim bo'lguncha davom etadi. Barcha toshlaridan ayrilgan yoki yurishga imkoni qolmagan o'yinchi mag'lub hisoblanadi.",
+            loading: "YUKLANMOQDA...", enterName: "ISMINGIZNI KIRITING", placeholder: "Nikneym...", save: "SAQLASH", welcome: "👋 Salom, ", onlinePlayers: "🟢 Onlayn o'yinchilar:", noPlayers: "Hozircha hech kim yo'q...", exit: "Chiqish", profile: "PROFIL", wins: "G'alaba", losses: "Mag'lubiyat", close: "Yopish", bestPlayers: " Eng yaxshilar", botBtn: "🤖 BOT BILAN O'YNASH", noOnline: "Hozir onlayn o'yinchilar yo'q", invite: "🎮 Taklif", whiteTurn: "⚪ Oqlar yurishi", blackTurn: "⚫ Qoralar yurishi", resign: "🏳️ Taslim bo'lish", menuReturn: "Menyuga qaytish: ", nameAlert: "Ism kamida 3 ta harf bo'lsin!", editPrompt: "Yangi ismni kiriting:", resignConfirm: "Taslim bo'lasizmi?", opponentResigned: "Raqib taslim bo'ldi!", youResigned: "Siz taslim bo'ldingiz!", lostNoPieces: "Siz yutqazdingiz! (Toshlar qolmadi/Yurish yo'q)", youWon: "Siz yutdingiz!", nextRank: "Keyingi rank", forNextRank: "uchun yana", winsNeeded: "ta g'alaba kerak.", maxRank: "Siz eng yuqori darajadasiz!", inviteSent: "taklif qildi. Qabul qilasizmi?", authCancel: "Kirish bekor qilindi.", authFail: "Login yoki parol noto'g'ri!", rulesTitle: "❓ O'yin qoidalari", rulesText: "1. O'yin to'q rangli kataklarda diagonal bo'ylab diagonal harakatlar bilan o'ynaladi.<br><br>2. Oddiy toshlar faqat oldinga qarab bir katak yura oladi.<br><br>3. Agar raqib toshini yeyish imkoniyati bo'lsa, yeyish majburiy emas.<br><br>4. Tosh raqib ustidan sakrab o'tib uni yeydi va ketma-ket bir nechta toshni yeyish imkoniyati bo'lsa, sakrashni davom ettiradi.<br><br>5. Doskaning qarama-qarshi chetiga yetib borgan tosh 'Damka' (👑) ga aylanadi. Damka istalgan masofaga oldinga va orqaga diagonal yura oladi.<br><br>6. O'yin toshlar tugaguncha yoki biron bir taraf taslim bo'lguncha davom etadi. Balla toshlaridan ayrilgan yoki yurishga imkoni qolmagan o'yinchi mag'lub hisoblanadi.",
             ranks: [
                 { min: 0, name: "Yangi o'yinchi", icon: "🌱" },
                 { min: 10, name: "Havaskor", icon: "🥉" },
@@ -409,7 +409,7 @@
         document.getElementById('rules-content').innerHTML = lang.rulesText;
         document.getElementById('rules-close-btn').innerText = lang.close;
         
-        const imgHTML = '<img src="oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> ';
+        const imgHTML = '<span class="lead-title-img">🏆</span> ';
         document.getElementById('lead-title').innerHTML = imgHTML + lang.bestPlayers;
     }
 
