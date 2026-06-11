@@ -68,8 +68,9 @@
         #menu { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         #menu h1 { color: #f1c40f; margin-bottom: 20px; font-weight: 900; }
         .top-btns { position: absolute; top: 20px; width: 90%; display: flex; justify-content: space-between; align-items: center; gap: 5px; }
-        .circle-btn { width: 45px; height: 45px; font-size: 22px; cursor: pointer; background: #2c2c2c; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.3); -webkit-tap-highlight-color: transparent !important; outline: none !important; }
-        .circle-btn img { width: 24px; height: 24px; object-fit: contain; }
+        .circle-btn { width: 45px; height: 45px; font-size: 22px; cursor: pointer; background: #2c2c2c; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.3); -webkit-tap-highlight-color: transparent !important; outline: none !important; overflow: hidden; }
+        .circle-btn img { width: 100%; height: 100%; object-fit: cover; }
+        .leader-icon-btn { width: 24px; height: 24px; object-fit: contain !important; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 200; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { width: 90%; max-width: 400px; background: #2c2c2c; border-radius: 20px; padding: 25px; text-align: center; border: 2px solid #f1c40f; position: relative; }
@@ -125,6 +126,9 @@
 
         .rules-text { text-align: left; font-size: 14px; line-height: 1.5; max-height: 40vh; overflow-y: auto; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #444; margin: 15px 0; }
         .lead-title-img { width: 28px; height: 28px; vertical-align: middle; margin-right: 5px; object-fit: contain; }
+        
+        /* Dinamik profil rasmi uchun maxsus uslub */
+        .user-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
     </style>
 </head>
 <body onclick="handleInteraction()" oncontextmenu="return false;"> 
@@ -143,13 +147,16 @@
 
 <div id="menu">
     <div class="top-btns">
-        <div class="circle-btn" onclick="openProfile()">👤</div>
+        <div class="circle-btn" id="my-profile-avatar-btn" onclick="openProfile()">👤</div>
         <div class="circle-btn" onclick="document.getElementById('lang-setup-modal').style.display = 'flex';">🌐</div>
-        <div class="circle-btn" onclick="toggleLeaderboard(true)"><img src="kodga oʻrinlar.png" alt="Leaderboard"></div>
+        <div class="circle-btn" onclick="toggleLeaderboard(true)"><img src="oʻrinlar.png" class="leader-icon-btn" alt="Leaderboard"></div>
         <div class="circle-btn" onclick="toggleRules(true)">❓</div>
     </div>
     <h1>♟️ SHASHKA ONLINE</h1>
-    <p id="my-name-display" style="font-weight: 800;">...</p>
+    <div id="menu-profile-section" style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 10px;">
+        <div id="large-avatar-container" style="width: 65px; height: 65px; border-radius: 50%; border: 2px solid #f1c40f; display: none; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.4);"></div>
+        <p id="my-name-display" style="font-weight: 800; margin: 5px 0 0 0;">...</p>
+    </div>
     <div id="my-rank-short" class="rank-tag">Yangi o'yinchi</div>
     
     <h3 id="online-players-title" style="margin-top: 20px;">🟢 Onlayn o'yinchilar:</h3>
@@ -170,6 +177,7 @@
     <div class="modal-content">
         <span class="edit-name-btn" onclick="openEditNameModal()">✏️</span>
         <h2 id="prof-title" style="margin:0; color:#f1c40f;">PROFIL</h2>
+        <div id="modal-avatar-container" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid #f1c40f; margin: 15px auto 5px auto; display: none; overflow: hidden;"></div>
         <h3 id="prof-name" style="margin: 10px 0;">Ism</h3>
         <div id="prof-rank" class="rank-tag">Rank</div>
         <div class="stats-grid">
@@ -192,7 +200,7 @@
 
 <div id="leaderboard-modal" class="modal">
     <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
-        <h2 id="lead-title" style="font-weight: 900; color:#f1c40f;"><img src="kodga oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> Eng yaxshilar</h2>
+        <h2 id="lead-title" style="font-weight: 900; color:#f1c40f;"><img src="oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> Eng yaxshilar</h2>
         <div id="leaderboard-list"></div>
         <button id="lead-close-btn" class="btn" onclick="toggleLeaderboard(false)">Yopish</button>
     </div>
@@ -249,6 +257,7 @@
 
 <script>
     const tg = window.Telegram ? window.Telegram.WebApp : null;
+    let userAvatarUrl = null;
     
     if (tg) {
         tg.expand();
@@ -314,12 +323,35 @@
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
         userId = tg.initDataUnsafe.user.id.toString();
         currentName = tg.initDataUnsafe.user.first_name;
+        if (tg.initDataUnsafe.user.photo_url) {
+            userAvatarUrl = tg.initDataUnsafe.user.photo_url;
+        }
         localStorage.setItem('shashka_userid', userId);
         localStorage.setItem('shashka_username', currentName);
     } else {
         userId = localStorage.getItem('shashka_userid') || "u" + Date.now();
         localStorage.setItem('shashka_userid', userId);
         currentName = localStorage.getItem('shashka_username') || "";
+    }
+
+    // Telegram profil rasmini interfeysda yangilash funksiyasi
+    function setupUserAvatars() {
+        if (userAvatarUrl) {
+            const topBtn = document.getElementById('my-profile-avatar-btn');
+            if (topBtn) topBtn.innerHTML = `<img src="${userAvatarUrl}" class="user-avatar-img" alt="Avatar">`;
+            
+            const largeContainer = document.getElementById('large-avatar-container');
+            if (largeContainer) {
+                largeContainer.innerHTML = `<img src="${userAvatarUrl}" class="user-avatar-img" alt="Avatar">`;
+                largeContainer.style.display = 'block';
+            }
+            
+            const modalContainer = document.getElementById('modal-avatar-container');
+            if (modalContainer) {
+                modalContainer.innerHTML = `<img src="${userAvatarUrl}" class="user-avatar-img" alt="Avatar">`;
+                modalContainer.style.display = 'block';
+            }
+        }
     }
 
     function getDeviceModel() {
@@ -384,8 +416,7 @@
         document.getElementById('rules-content').innerHTML = lang.rulesText;
         document.getElementById('rules-close-btn').innerText = lang.close;
         
-        // Matn yangilanganda rasmdan keyingi matn to'g'ri chiqishi uchun
-        const imgHTML = '<img src="kodga oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> ';
+        const imgHTML = '<img src="oʻrinlar.png" class="lead-title-img" alt="Leaderboard"> ';
         document.getElementById('lead-title').innerHTML = imgHTML + lang.bestPlayers;
     }
 
@@ -398,6 +429,7 @@
             document.getElementById('name-setup-modal').style.display = 'none';
             document.getElementById('menu').style.display = 'flex';
             document.getElementById('my-name-display').innerText = LOCALES[currentLang].welcome + currentName;
+            setupUserAvatars();
             updatePresence();
             db.ref('stats/' + userId).update({ name: currentName });
         } else {
@@ -420,6 +452,7 @@
                 } else {
                     document.getElementById('menu').style.display = 'flex';
                     document.getElementById('my-name-display').innerText = LOCALES[currentLang].welcome + currentName;
+                    setupUserAvatars();
                     updatePresence();
                 }
                 updateMyRankInMenu();
@@ -441,7 +474,7 @@
         const myPres = db.ref('presence/' + userId);
         const deviceModel = getDeviceModel();
         const timestamp = firebase.database.ServerValue ? firebase.database.ServerValue.TIMESTAMP : Date.now();
-        myPres.set({ name: currentName, online: true, inGame: false, device: deviceModel, lastActive: timestamp });
+        myPres.set({ name: currentName, online: true, inGame: false, device: deviceModel, lastActive: timestamp, photoUrl: userAvatarUrl || "" });
         myPres.onDisconnect().update({ online: false, inGame: false, lastActive: timestamp });
     }
 
